@@ -1,22 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 export default function HomePage() {
-  const { user, loading } = useAuth();
+  const { isLoaded, isSignedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading) {
-      if (user) {
+    if (isLoaded) {
+      if (isSignedIn) {
         router.push("/dashboard");
       } else {
         router.push("/login");
       }
     }
-  }, [user, loading, router]);
+  }, [isLoaded, isSignedIn, router]);
 
   return (
     <div className="flex h-screen items-center justify-center">

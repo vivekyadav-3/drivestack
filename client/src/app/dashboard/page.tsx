@@ -468,7 +468,20 @@ export default function DashboardPage() {
                     <File size={28} />
                   </div>
                   <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-all scale-90">
-                    {currentView !== 'trash' ? (
+                    {currentView === 'trash' ? (
+                      <>
+                        <button onClick={() => handleRestore('file', file.id)} className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-colors">
+                          <RefreshCcw size={16} />
+                        </button>
+                        <button onClick={() => handlePermanentDelete('file', file.id)} className="p-2 text-gray-400 hover:text-red-700 hover:bg-red-100 rounded-xl transition-colors">
+                          <Trash size={16} />
+                        </button>
+                      </>
+                    ) : currentView === 'shared' ? (
+                      <button onClick={() => handleDownload(file.id)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors" title="Download">
+                        <Download size={16} />
+                      </button>
+                    ) : (
                       <>
                         <button onClick={() => handleDownload(file.id)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors" title="Download">
                           <Download size={16} />
@@ -481,19 +494,6 @@ export default function DashboardPage() {
                         </button>
                         <button onClick={() => handleDelete('file', file.id)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors" title="Move to Bin">
                           <Trash2 size={16} />
-                        </button>
-                      </>
-                    ) : currentView === 'shared' ? (
-                      <button onClick={() => handleDownload(file.id)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors" title="Download">
-                        <Download size={16} />
-                      </button>
-                    ) : (
-                      <>
-                        <button onClick={() => handleRestore('file', file.id)} className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-colors">
-                          <RefreshCcw size={16} />
-                        </button>
-                        <button onClick={() => handlePermanentDelete('file', file.id)} className="p-2 text-gray-400 hover:text-red-700 hover:bg-red-100 rounded-xl transition-colors">
-                          <Trash size={16} />
                         </button>
                       </>
                     )}

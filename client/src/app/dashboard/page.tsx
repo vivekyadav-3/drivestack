@@ -1,5 +1,6 @@
 "use client";
 
+// Logic fix to handle view narrowing in TypeScript production builds
 import { useEffect, useState, useRef } from "react";
 import { useUser, useAuth, SignOutButton } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";

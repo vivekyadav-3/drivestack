@@ -1,0 +1,76 @@
+### Base URL
+@baseUrl = http://localhost:5000/api
+
+### 1. Signup
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
+
+### 2. Login
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
+
+### 3. Get Current User (Protected)
+@token = {{login.response.body.token}}
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+### 4. Create Folder (Protected)
+POST {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "My Documents"
+}
+
+### 5. Get Folders (Protected)
+GET {{baseUrl}}/folders
+Authorization: Bearer {{token}}
+
+### 6. Upload File (Protected)
+# Note: You'll need to specify a real file path if using VS Code REST Client
+POST {{baseUrl}}/files/upload
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="test.txt"
+Content-Type: text/plain
+
+Hello DriveStack! This is a test file.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="folder_id"
+
+{{folder_id}}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 7. Get File Download Link (Protected)
+@file_id = your-file-id-here
+GET {{baseUrl}}/files/{{file_id}}
+Authorization: Bearer {{token}}
+
+### 8. Create Share Link (Protected)
+# Returns a token that can be used by ANYONE publically
+POST {{baseUrl}}/files/{{file_id}}/share
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "expiresInHours": 1
+}
+
+### 9. Retrieve File from Public Share Link (Public)
+# No Authorization header needed!
+@share_token = your-share-token-here
+GET {{baseUrl}}/share/{{share_token}}
